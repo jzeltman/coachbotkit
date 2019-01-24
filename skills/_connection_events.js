@@ -12,28 +12,62 @@ module.exports = function(controller) {
           quick_replies: [
             {
               title: 'Goals',
-              payload: 'goals',
+              payload: 'Goals',
             },
             {
               title: 'Motivation',
-              payload: 'motivation',
+              payload: 'Motivation',
             },
             {
               title: 'Organization',
-              payload: 'organization',
+              payload: 'Organization',
             },
             {
               title: 'Ideas',
-              payload: 'ideas',
+              payload: 'Ideas',
             },
             {
               title: 'Mindset',
-              payload: 'mindset',
+              payload: 'Mindset',
             },
           ]
         });
       });
     }
+
+    controller.hears(['Goals','Ideas','Mindset','Organization'], 'message_received', (bot, message) => {
+      bot.startConversation(message, (err, convo) => {
+        convo.say({
+          text: 'I\'m sorry to say that I\'m not trained to help you with that yet. But I\'m working on it!'
+        })
+      });
+    });
+
+    controller.hears(['Motivation'], 'message_received', (bot, message) => {
+      bot.startConversation(message, (err, convo) => {
+        convo.say({
+          text: 'Why are you feeling unmotivated right now?',
+          quick_replies: [
+            {
+              title: 'Loss of interest',
+              payload: 'Loss of interest'
+            },
+            {
+              title: 'Forgot my why',
+              payload: 'Forgot my why'
+            },
+            {
+              title: 'Overwhelmed by the size of the goal', 
+              payload: 'Overwhelmed by the size of the goal'
+            },
+            {
+              title: 'I\'m exhausted',
+              payload: 'I\'m exhausted'
+            }
+          ]
+        });
+      })
+    });
 
     controller.hears(['help','contact','documentation','docs','community'], 'message_received', function(bot, message) {
 
