@@ -6,43 +6,53 @@ module.exports = function(controller) {
     controller.on('welcome_back', conductOnboarding);
 
     function conductOnboarding(bot, message) {
-
       bot.startConversation(message, function(err, convo) {
-
         convo.say({
-          text: 'Hello human! I am coachbot. How do you do?',
+          text: 'Hey there, I\'m coachbot. How can I help you succeed today?',
           quick_replies: [
             {
-              title: 'Help',
-              payload: 'help',
+              title: 'Goals',
+              payload: 'goals',
+            },
+            {
+              title: 'Motivation',
+              payload: 'motivation',
+            },
+            {
+              title: 'Organization',
+              payload: 'organization',
+            },
+            {
+              title: 'Ideas',
+              payload: 'ideas',
+            },
+            {
+              title: 'Mindset',
+              payload: 'mindset',
             },
           ]
         });
-
-
       });
-
     }
 
     controller.hears(['help','contact','documentation','docs','community'], 'message_received', function(bot, message) {
 
       bot.startConversation(message, function(err, convo) {
-
         // set up a menu thread which other threads can point at.
         convo.ask({
           text: 'I can point you to resources, and connect you with experts who can help.',
           quick_replies: [
             {
               title: 'Read the Docs',
-              payload: 'documentation',
+              payload: 'documentation'
             },
             {
               title: 'Join the Community',
-              payload: 'community',
+              payload: 'community'
             },
             {
               title: 'Expert Help',
-              payload: 'contact us',
+              payload: 'contact us'
             },
           ]
         },[
@@ -116,10 +126,6 @@ module.exports = function(controller) {
         convo.addMessage({
           action: 'default'
         }, 'contact');
-
       });
-
     });
-
-
 }
