@@ -363,12 +363,18 @@ header {
         top: 0;
         right: 0; }
 
+#app.landing header {
+  display: block; }
+  #app.landing header h1 {
+    text-align: center; }
+  #app.landing header #user {
+    display: none; }
+
 #embedded_messenger {
   position: absolute;
   top: 4rem;
   right: .5rem;
-  bottom: .5rem;
-  width: 25%;
+  bottom: 1.5rem;
   border-radius: 7px;
   background: #e0fffc;
   border: 3px solid #fff; }
@@ -376,6 +382,17 @@ header {
     height: 100%;
     width: 100%;
     border: none; }
+  @media (min-width: 767px) {
+    #embedded_messenger {
+      width: 25%;
+      bottom: .5rem; } }
+
+#app.landing #embedded_messenger {
+  width: auto; }
+  @media (min-width: 767px) {
+    #app.landing #embedded_messenger {
+      left: .5rem;
+      width: calc( 100% - 1rem); } }
 
 #user-profile {
   background: #fff;
@@ -691,15 +708,27 @@ html, body {
 
 html {
   background: url(../img/funky-lines-light-green.png) repeat;
-  height: 100%; }
+  height: 100%;
+  overflow: hidden; }
 
 #app {
   margin: 3rem;
   box-shadow: 0 0 2rem rgba(0, 94, 121, 0.5);
   background: url(../img/funky-lines.png) repeat;
-  border-radius: 10px;
-  min-height: calc(100% - 6rem);
-  position: relative; }
+  position: relative;
+  height: 100%; }
+  #app.landing {
+    margin: 1rem auto 0;
+    width: 100%; }
+    @media (min-width: 767px) {
+      #app.landing {
+        border-radius: 10px;
+        min-height: calc(100% - 6rem);
+        margin: 3rem auto;
+        max-width: 500px;
+        height: auto; } }
+    #app.landing main {
+      display: none; }
 
 a {
   color: #42c698; }

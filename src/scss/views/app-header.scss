@@ -41,3 +41,10 @@ header {
         }
     }
 }
+
+#app.landing {
+    header { display: block; 
+        h1 { text-align: center; }
+        #user { display: none; }
+    }
+}
