@@ -7,10 +7,8 @@ export default class MyApp {
     constructor(){
         console.log('New App',Utils);
         FirebaseInit();
-        window.db       = firebase.firestore();
-        window.events   = new Utils.Events(document.querySelector('#app'));
         Botkit.boot();
-        //Botkit.activate();
+        window.events = new Utils.Events(document.querySelector('#app'));
         new AppView();
 
         window.events.sub('auth:success', this.updateBotKitUser.bind(this)); 
