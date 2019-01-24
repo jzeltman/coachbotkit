@@ -388,11 +388,8 @@ header {
       bottom: .5rem; } }
 
 #app.landing #embedded_messenger {
-  width: auto; }
-  @media (min-width: 767px) {
-    #app.landing #embedded_messenger {
-      left: .5rem;
-      width: calc( 100% - 1rem); } }
+  width: calc( 100% - 1rem);
+  left: .5rem; }
 
 #user-profile {
   background: #fff;
