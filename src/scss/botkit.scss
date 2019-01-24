@@ -1,0 +1,311 @@
+@import './vars';
+
+$botkit_green: $primaryColor;
+$action_color: $tertiaryColor;
+$background: $lineColor;
+$bot_message_background: $secondaryColor;
+$bot_message_text: $lineColor;
+$human_message_background: $botkit_green;
+$human_message_text: $lineColor;
+
+@mixin clearfix {
+    &:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    font-size: 18px;
+    background-color: #e0fffc;
+}
+
+.wrapper {
+    @include clearfix;
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.box {
+    @include clearfix;
+    border: 2px solid #CCC;
+    padding: 1rem calc(1rem - 2px);
+    margin-bottom: 1rem;
+
+    h1, h2, h3 { margin-top: 0; }
+}
+
+footer { text-align: center; }
+
+.hero {
+    text-align: center;
+    padding: 2rem;
+
+    h1 {
+        font-size: 4rem;
+        margin: 0;
+    }
+}
+
+a { color: $botkit_green; }
+
+.copyurl {
+    width: 100%;
+    font-size: 1.25rem;
+}
+
+div.input {
+    label {
+        font-weight: bold;
+        font-size: smaller;
+    }
+}
+
+.addon {
+    display: flex;
+    border: 1px solid #999;
+    border-radius: 6px;
+    padding: 5px;
+    background: #F0F0F0;
+
+    input,
+    textarea {
+        flex-grow: 1;
+        border: 0;
+        background: transparent;
+    }
+
+    button {
+        flex-grow: 0;
+        background: transparent;
+        border: 1px solid #999;
+        border-radius: 6px;
+        font-weight: bold;
+
+        &.textarea {
+            align-self: flex-start;
+            padding: 0.5rem;
+        }
+
+        &:hover {
+            background: #FFF;
+            color: $botkit_green;
+        }
+    }
+}
+
+div.hr {
+    border: 1px dashed #ccc;
+    width: 10%;
+    margin: 4rem auto;
+    height: 1px;
+}
+
+a.button {
+    border: 2px solid $botkit_green;
+    font-weight: bold;
+    margin: 0;
+    border-radius: 3px;
+    display: inline-block;
+    padding: 0.5rem 2rem;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 5px 5px 5px rgba(0,0,0,0.2);
+    background-color: #FFF;
+    transition: box-shadow 0.1s linear;
+
+    &:hover { box-shadow: 1px 1px 5px rgba(0,0,0,0.1); }
+}
+
+#message_window {
+    background: $background;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .disconnected {
+        background: $tertiaryColor;
+        padding: 0.25rem;
+    }
+
+    .offline,
+    &.connected .disconnected { display: none; }
+
+    &.offline {
+        .disconnected { display: none; }
+        .offline {
+            background: $tertiaryColorLowLight;
+            color: #FFF;
+            padding: 0.25rem;
+            display: block;
+        }
+    }
+
+    section {
+        flex-grow:  1;
+        flex-direction: column-reverse;
+        display: flex;
+        overflow-y: auto;
+
+        div div {
+            margin: 0.25rem;
+            clear: both;
+        }
+    }
+
+    footer {
+        border-top: 3px solid #fff;
+        position: relative;
+
+        input[type="text"] {
+            flex-grow: 1;
+            font-size: .9rem;
+            outline: none;
+            border: none;
+            padding: .25rem;
+            background: $lineColor;
+        }
+
+        button {
+            background: none;
+            border: 0;
+            cursor: pointer;
+            font-weight: 800;
+            color: $secondaryColor;
+            font-size: .7rem;
+            line-height: 1.3rem;
+            position: absolute;
+            right: .25rem;
+
+            &:hover { text-decoration: underline; }
+        }
+    }
+
+    form {
+        display: flex;
+        margin: 0;
+        padding: 0.25rem;
+    }
+
+    #message_template { display: none; }
+
+    .message {
+        font-size: 1rem;
+        line-height: 1.3;
+        padding: 0.5rem;
+        background: $bot_message_background;
+        color: $bot_message_text;
+        border-radius: 5px;
+        width: auto;
+        display: inline-block;
+        max-width: 75%;
+
+        p {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+
+            &:last-child { margin-bottom: 0; }
+        }
+
+
+        &.outgoing {
+            float: right;
+            background: $human_message_background;
+            color: $human_message_text;
+        }
+    }
+
+    .file_attachment {
+        background: $bot_message_background;
+        color: $bot_message_text;
+        border-radius: 5px;
+        display: inline-block;
+        max-width: 75%;
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+    }
+
+    .button_message {
+        margin: 1rem 0;
+        border-radius: 4px;
+        border-color: $action_color;
+        border-style: solid;
+        color: $action_color;
+        border-width: 1px;
+        padding: 0.25rem 1rem;
+        text-decoration: none;
+        text-align: center;
+        box-shadow: 1px 1px 2px rgba(0,0,0,0.25);
+        display: block;
+    }
+
+    #message_replies {
+        text-align: center;
+        overflow-x: auto;
+        flex-shrink: 0;
+        -webkit-overflow-scrolling: touch; /* Lets it scroll lazy */
+
+        ul {
+            list-style-type: none;
+            margin: 0px auto;
+            padding: 0;
+            li {
+                display: inline-block;
+                margin: 0.5rem;
+                margin-left: 0;
+            }
+        }
+
+        a {
+            text-decoration: none;
+            display: block;
+            border: 1px solid $botkit_green;
+            color: $botkit_green;
+            border-radius: 16px;
+            padding: 0.25rem 1rem;
+            font-size: 14px;
+            cursor: pointer;
+
+            &:hover {
+                background: $botkit_green;
+                color: #FFF;
+            }
+        }
+    }
+}
+
+/* typing indicator CSS based on code by Joseph Fusco -> https://codepen.io/fusco/pen/XbpaYv */
+.typing-indicator {
+    display: table;
+    margin: 0 auto;
+    position: relative;
+
+    span {
+        height: 5px;
+        width: 5px;
+        float: left;
+        margin: 0 1px;
+        background-color: $bot_message_text;
+        display: block;
+        border-radius: 50%;
+        opacity: 0.4;
+        @for $i from 1 through 3 {
+            &:nth-of-type(#{$i}) { animation: 1s blink infinite ($i * .3333s); }
+        }
+    }
+}
+
+@keyframes blink { 50% { opacity: 1; } }

@@ -1,0 +1,16 @@
+#embedded_messenger {
+    position: absolute;
+    top: 4rem;
+    right: .5rem;
+    bottom: .5rem;
+    width: 25%;
+    border-radius: 7px;
+    background: $lineColor;
+    border: 3px solid #fff;
+
+    iframe {
+        height: 100%;
+        width: 100%;
+        border: none; 
+    }
+}

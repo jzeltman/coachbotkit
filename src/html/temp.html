@@ -1,0 +1,32 @@
+
+    <form method="POST" action="/project/new">
+      <header>
+        <label for="project_name">Project Name</label>
+        <input type="text" placeholder="My Project..." name="project_name" />
+      </header>
+      <section>
+        <label for="project_due">Due Date</label>
+        <input type="date" name="project_due" />
+
+        <label for="project_notes">Notes</label>
+        <input type="textarea" placeholder="Project notes..." name="project_notes" />
+
+        <input type="submit" name="project_submit" value="Submit" />
+      </section>
+    </form>
+<hr/>
+    <form method="POST" action="/task/new">
+      <header>
+        <label for="task_name">Task Name</label>
+        <input type="text" placeholder="My task..." name="task_name" />
+      </header>
+      <section>
+        <label for="task_due">Due Date</label>
+        <input type="date" name="task_due" />
+
+        <label for="task_notes">Notes</label>
+        <input type="textarea" placeholder="Task notes..." name="task_notes" />
+
+        <input type="submit" name="task_submit" value="Submit" />
+      </section>
+    </form>

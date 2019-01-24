@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to Firebase Hosting</title>
+
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/5.8.0/firebase-app.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script defer src="/__/firebase/5.8.0/firebase-auth.js"></script>
+    <script defer src="/__/firebase/5.8.0/firebase-firestore.js"></script>
+    <script defer src="/__/firebase/5.8.0/firebase-messaging.js"></script>
+    <script defer src="/__/firebase/5.8.0/firebase-storage.js"></script>
+    <!-- initialize the SDK after all desired features are loaded -->
+    <script defer src="/__/firebase/init.js"></script>
+
+    <link rel="stylesheet" href="<%=htmlWebpackPlugin.files.chunks.main.css %>">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+  </head>
+  <body id="app">
+
+    <header>
+      <h1>COACHBOT</h1>
+      <aside id="user"></aside>
+    </header>
+
+    <aside id="embedded_messenger">
+      <iframe id="botkit_client" src="//super-bonsai.glitch.me/chat.html"></iframe>
+    </aside>
+
+    <main></main>
+
+    <script src="//super-bonsai.glitch.me/embed.js"></script>
+    <script src="<%= htmlWebpackPlugin.files.chunks.main.entry %>"></script>
+    <script src="http://localhost:35729/livereload.js"></script>
+  </body>
+</html>

@@ -1,0 +1,23 @@
+.button {
+    display: block;
+    background: url($lightGreenLinesUrl) repeat; 
+    box-shadow: .25rem .25rem 0 $secondaryColor;
+    border-radius: 5px;
+    font: 600 1.5rem/2.5rem $bodyFont;
+    color: $secondaryColor;
+    padding: 0 2rem;
+    border: none;
+
+    &:hover { 
+        text-decoration: underline; 
+        cursor: pointer;
+        background: $lightGreenLineColor;
+    }
+
+    &:active { 
+        text-decoration: underline;
+        box-shadow: none;
+        position: relative;
+        top: 1px;
+    }
+}

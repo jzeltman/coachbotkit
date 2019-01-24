@@ -1,0 +1,43 @@
+header {
+    background: #fff; 
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 10px 10px 0 0;
+    height: 3.5rem;
+    border-bottom: 3px solid $lineColor;
+
+    h1 {
+        color: $secondaryColor;
+        margin: 0;
+        padding: 0 1rem;
+        font: 600 2rem/3.5rem $bodyFont;
+    }
+
+    #user {
+        align-self: center;
+        margin: 0;
+        padding: 0;
+
+        button {
+            background: transparent;
+            border: none;
+            padding: 0 1.2rem;
+            color: $secondaryColor;
+            font: 400 1.2rem/3.5rem $bodyFont;
+            cursor: pointer;
+            position: relative;
+            margin: 0;
+
+            &:hover { text-decoration: underline; }
+
+            img { 
+                max-width: 3.5rem;
+                border-radius: 0 5px 0 0; 
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
+        }
+    }
+}

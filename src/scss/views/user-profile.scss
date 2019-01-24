@@ -1,0 +1,68 @@
+#user-profile {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 10px 10px 0 $secondaryColor;
+    margin: 3rem;
+    display: flex;
+
+    aside {
+        width: 30%;
+        padding: 3rem 0 3rem 3rem;
+        position: relative;
+
+        img { 
+            border-radius: 10px; 
+            max-width: 100%;
+        }
+
+        i {
+            position: absolute;
+            bottom: 3rem;
+            left: 3rem;
+            color: rgba($tertiaryColorLowLight,.6);
+            cursor: pointer;
+            padding: .5rem;
+
+            &:hover {
+                color: $secondaryColor;
+            }
+        }
+    }
+
+    form {
+        width: 70%;
+        padding: 3rem;
+    }
+
+    input {
+        &[type=text],
+        &[type=email] {
+            border: none;
+            border-bottom: 3px dotted $lineColor;
+            font: 400 1.5rem/2rem $bodyFont; 
+            color: $secondaryColor;
+            margin-bottom: 2rem;
+            width: 100%;
+
+            &:focus { 
+                border-bottom-color: $secondaryColor; 
+                border-bottom-style: solid;
+            }
+        }
+
+        &::placeholder { color: $lineColor; }
+    }
+
+    label {
+        display: block;
+        color: rgba($tertiaryColorLowLight,.6);
+        font-size: .9rem;
+        font-weight: 900;
+        text-transform: uppercase;
+    }
+
+    .button { 
+        float: right; 
+        clear: both;
+    }
+}
