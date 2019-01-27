@@ -25,7 +25,7 @@ const Botkit    = require('botkit');
 const debug     = require('debug')('botkit:main');
 
 const dialogflowMiddleware = require('botkit-middleware-dialogflow')({
-    keyFilename: './coachbot-6bed5-de3a7566bcaa.json' 
+    keyFilename: './coachbot-dialogflow-config.json' 
 });
 
 var bot_options = { replyWithTyping: true, };
