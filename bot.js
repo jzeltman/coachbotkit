@@ -16,17 +16,15 @@
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 const env                   = require('node-env-file');
+      env(__dirname + '/.env');
 const path                  = require('path');
 const fs                    = require('fs');
 const Botkit                = require('botkit');
 const debug                 = require('debug')('botkit:main');
 const dialogflowMiddleware  = require('botkit-middleware-dialogflow')({
-    keyFilename: './coachbot-dialogflow-config.json' 
+    keyFilename: './dialogflow-config.json' 
 });
-
-const bot_options = { replyWithTyping: true, };
-
-env(__dirname + '/.env');
+const bot_options           = { replyWithTyping: true, };
 
 // Use a mongo database if specified, otherwise store in a JSON file local to the app.
 // Mongo is automatically configured when deploying to Heroku
