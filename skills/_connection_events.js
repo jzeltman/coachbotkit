@@ -1,6 +1,10 @@
 /* This module kicks in if no Botkit Studio token has been provided */
+module.exports = function(controller,dialogflowMiddleware) {
 
-module.exports = function(controller) {
+  controller.middleware.receive.use((bot, message, next) => {
+      console.log('Message Logging',message);
+      next();
+  });
 
     controller.on('hello', conductOnboarding);
     controller.on('welcome_back', conductOnboarding);
@@ -68,6 +72,7 @@ module.exports = function(controller) {
         });
       })
     });
+
 
     controller.hears(['help','contact','documentation','docs','community'], 'message_received', function(bot, message) {
 

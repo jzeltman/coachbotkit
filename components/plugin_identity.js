@@ -1,20 +1,15 @@
-module.exports = function(controller) {
-
+module.exports = function(controller,dialogflowMiddleware) {
   controller.middleware.spawn.use(function(bot, next) {
-
       bot.identity = {
-          name: 'Botkit for Web',
+          name: 'CoachBotkit',
           id: 'web',
       }
-
   });
-
 
   controller.middleware.receive.use(function(bot, message, next) {
 
-    if (!message.user_profile) {
-      next();
-    } else {
+    if (!message.user_profile) { next(); } 
+    else {
       controller.storage.users.get(message.user, function(err, user) {
         if (!user) {
           user = {
@@ -30,15 +25,8 @@ module.exports = function(controller) {
             user.attributes[key] = message.user_profile[key];
           }
         }
-
-        controller.storage.users.save(user, function(err) {
-          next();
-        });
-
+        controller.storage.users.save(user, err => { next(); });
       });
     }
-
   });
-
-
 }
