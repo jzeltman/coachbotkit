@@ -6,43 +6,92 @@ module.exports = function(controller,dialogflowMiddleware) {
       next();
   });
 
-  controller.on('hello', conductOnboarding);
-  controller.on('welcome_back', conductOnboarding);
+    controller.on('hello', conductOnboarding);
+    controller.on('welcome_back', conductOnboarding);
 
-  function conductOnboarding(bot, message) {
+    function conductOnboarding(bot, message) {
+      bot.startConversation(message, function(err, convo) {
+        convo.say({
+          text: 'Hey there, I\'m coachbot. How can I help you succeed today?',
+          quick_replies: [
+            {
+              title: 'Goals',
+              payload: 'Goals',
+            },
+            {
+              title: 'Motivation',
+              payload: 'Motivation',
+            },
+            {
+              title: 'Organization',
+              payload: 'Organization',
+            },
+            {
+              title: 'Ideas',
+              payload: 'Ideas',
+            },
+            {
+              title: 'Mindset',
+              payload: 'Mindset',
+            },
+          ]
+        });
+      });
+    }
 
-    bot.startConversation(message, function(err, convo) {
-      convo.say({
-        text: 'Hello human! I am coachbot. How do you do?',
-        quick_replies: [
-          {
-            title: 'Help',
-            payload: 'help',
-          },
-        ]
+    controller.hears(['Goals','Ideas','Mindset','Organization'], 'message_received', (bot, message) => {
+      bot.startConversation(message, (err, convo) => {
+        convo.say({
+          text: 'I\'m sorry to say that I\'m not trained to help you with that yet. But I\'m working on it!'
+        })
       });
     });
-  }
+
+    controller.hears(['Motivation'], 'message_received', (bot, message) => {
+      bot.startConversation(message, (err, convo) => {
+        convo.say({
+          text: 'Why are you feeling unmotivated right now?',
+          quick_replies: [
+            {
+              title: 'Loss of interest',
+              payload: 'Loss of interest'
+            },
+            {
+              title: 'Forgot my why',
+              payload: 'Forgot my why'
+            },
+            {
+              title: 'Overwhelmed by the size of the goal', 
+              payload: 'Overwhelmed by the size of the goal'
+            },
+            {
+              title: 'I\'m exhausted',
+              payload: 'I\'m exhausted'
+            }
+          ]
+        });
+      })
+    });
+
 
     controller.hears(['help','contact','documentation','docs','community'], 'message_received', function(bot, message) {
 
       bot.startConversation(message, function(err, convo) {
-
         // set up a menu thread which other threads can point at.
         convo.ask({
           text: 'I can point you to resources, and connect you with experts who can help.',
           quick_replies: [
             {
               title: 'Read the Docs',
-              payload: 'documentation',
+              payload: 'documentation'
             },
             {
               title: 'Join the Community',
-              payload: 'community',
+              payload: 'community'
             },
             {
               title: 'Expert Help',
-              payload: 'contact us',
+              payload: 'contact us'
             },
           ]
         },[
@@ -116,10 +165,6 @@ module.exports = function(controller,dialogflowMiddleware) {
         convo.addMessage({
           action: 'default'
         }, 'contact');
-
       });
-
     });
-
-
 }
