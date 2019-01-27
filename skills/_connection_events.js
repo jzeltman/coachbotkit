@@ -1,28 +1,28 @@
 /* This module kicks in if no Botkit Studio token has been provided */
+module.exports = function(controller,dialogflowMiddleware) {
 
-module.exports = function(controller) {
+  controller.middleware.receive.use((bot, message, next) => {
+      console.log('Message Logging',message);
+      next();
+  });
 
-    controller.on('hello', conductOnboarding);
-    controller.on('welcome_back', conductOnboarding);
+  controller.on('hello', conductOnboarding);
+  controller.on('welcome_back', conductOnboarding);
 
-    function conductOnboarding(bot, message) {
+  function conductOnboarding(bot, message) {
 
-      bot.startConversation(message, function(err, convo) {
-
-        convo.say({
-          text: 'Hello human! I am coachbot. How do you do?',
-          quick_replies: [
-            {
-              title: 'Help',
-              payload: 'help',
-            },
-          ]
-        });
-
-
+    bot.startConversation(message, function(err, convo) {
+      convo.say({
+        text: 'Hello human! I am coachbot. How do you do?',
+        quick_replies: [
+          {
+            title: 'Help',
+            payload: 'help',
+          },
+        ]
       });
-
-    }
+    });
+  }
 
     controller.hears(['help','contact','documentation','docs','community'], 'message_received', function(bot, message) {
 
