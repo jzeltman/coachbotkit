@@ -15,30 +15,28 @@
     -> http://howdy.ai/botkit
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-var env = require('node-env-file');
-env(__dirname + '/.env');
-
-
-const path      = require('path');
-const fs        = require('fs');
-const Botkit    = require('botkit');
-const debug     = require('debug')('botkit:main');
-
-const dialogflowMiddleware = require('botkit-middleware-dialogflow')({
+const env                   = require('node-env-file');
+const path                  = require('path');
+const fs                    = require('fs');
+const Botkit                = require('botkit');
+const debug                 = require('debug')('botkit:main');
+const dialogflowMiddleware  = require('botkit-middleware-dialogflow')({
     keyFilename: './coachbot-dialogflow-config.json' 
 });
 
-var bot_options = { replyWithTyping: true, };
+const bot_options = { replyWithTyping: true, };
+
+env(__dirname + '/.env');
 
 // Use a mongo database if specified, otherwise store in a JSON file local to the app.
 // Mongo is automatically configured when deploying to Heroku
 if (process.env.MONGO_URI) {
-  // create a custom db access method
-  var db = require(__dirname + '/components/database.js')({});
-  bot_options.storage = db;
-} else {
-    bot_options.json_file_store = __dirname + '/.data/db/'; // store user data in a simple JSON format
-}
+    // create a custom db access method
+    var db = require(__dirname + '/components/database.js')({});
+    bot_options.storage = db;
+
+         // store user data in a simple JSON format 
+} else { bot_options.json_file_store = __dirname + '/.data/db/'; }
 
 // Create the Botkit controller, which controls all instances of the bot.
 const controller = Botkit.socketbot(bot_options);
@@ -72,7 +70,6 @@ const loadSkills = (filepath,rootPath) => {
         }
     });
 } 
-
 
 fs.readdirSync(normalizedPath).forEach( file => {
     // update to allow folders as well 
