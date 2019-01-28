@@ -9,7 +9,7 @@ const LiveReloadPlugin      = require('webpack-livereload-plugin');
 const CopyWebpackPlugin     = require('copy-webpack-plugin');
 
 module.exports = {
-    entry: { main: './src/js/index.js' },
+    entry: { main: './publicsrc/js/index.js' },
     output: {
         path: path.resolve(__dirname, 'public'),
         filename: 'js/[name].js'
@@ -34,7 +34,7 @@ module.exports = {
                         loader: 'file-loader',
                         options: {
                             name: '[path][name].[ext]',
-                            context: path.resolve(__dirname, "src/"),
+                            context: path.resolve(__dirname, "publicsrc/"),
                             outputPath: 'public/',
                             publicPath: '../',
                             useRelativePaths: true
@@ -52,16 +52,16 @@ module.exports = {
         new HtmlWebpackPlugin({
             inject: false,
             hash: true,
-            template: './src/html/chat.html',
+            template: './publicsrc/html/chat.html',
             filename: 'chat.html'
         }),
         new WebpackMd5Hash(),
         new LiveReloadPlugin(),
         new CopyWebpackPlugin([
-            { from: './src/js/embed.js', to: 'embed.js', flatten: true },
-            { from: './src/js/client.js', to: 'client.js', flatten: true },
-            { from: './src/img/*', to: 'img/', flatten: true },
-            { from: './src/json/*', to: 'json/', flatten: true }
+            { from: './publicsrc/js/embed.js', to: 'embed.js', flatten: true },
+            { from: './publicsrc/js/client.js', to: 'client.js', flatten: true },
+            { from: './publicsrc/img/*', to: 'img/', flatten: true },
+            { from: './publicsrc/json/*', to: 'json/', flatten: true }
         ])
     ]
 };
