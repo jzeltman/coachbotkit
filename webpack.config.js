@@ -5,7 +5,6 @@ const WebpackMd5Hash        = require('webpack-md5-hash');
 const MiniCssExtractPlugin  = require('mini-css-extract-plugin');
 const CleanWebpackPlugin    = require('clean-webpack-plugin');
 const StyleLintPlugin       = require('stylelint-webpack-plugin');
-const LiveReloadPlugin      = require('webpack-livereload-plugin');
 const CopyWebpackPlugin     = require('copy-webpack-plugin');
 
 module.exports = {
@@ -56,7 +55,6 @@ module.exports = {
             filename: 'chat.html'
         }),
         new WebpackMd5Hash(),
-        new LiveReloadPlugin(),
         new CopyWebpackPlugin([
             { from: './publicsrc/js/embed.js', to: 'embed.js', flatten: true },
             { from: './publicsrc/js/client.js', to: 'client.js', flatten: true },
