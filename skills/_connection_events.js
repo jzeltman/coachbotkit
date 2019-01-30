@@ -1,13 +1,14 @@
 /* This module kicks in if no Botkit Studio token has been provided */
 module.exports = function(controller,dialogflowMiddleware) {
-
+  console.log('connection events')
+/*
   controller.middleware.receive.use((bot, message, next) => {
-      console.log('Message Logging',message);
+      console.log('Message Logging\n~~~~~~~~~~~~~~~~~~\n',message,'\n~~~~~~~~~~~~~~~~~~');
       next();
   });
 
-    controller.on('hello', conductOnboarding);
-    controller.on('welcome_back', conductOnboarding);
+  controller.on('hello', conductOnboarding);
+  controller.on('welcome_back', conductOnboarding);
 
     function conductOnboarding(bot, message) {
       bot.startConversation(message, function(err, convo) {
@@ -34,18 +35,15 @@ module.exports = function(controller,dialogflowMiddleware) {
               title: 'Mindset',
               payload: 'Mindset',
             },
+            {
+              title: 'Planner',
+              payload: 'Planner',
+            },
           ]
         });
       });
     }
 
-    controller.hears(['Goals','Ideas','Mindset','Organization'], 'message_received', (bot, message) => {
-      bot.startConversation(message, (err, convo) => {
-        convo.say({
-          text: 'I\'m sorry to say that I\'m not trained to help you with that yet. But I\'m working on it!'
-        })
-      });
-    });
 
     controller.hears(['Motivation'], 'message_received', (bot, message) => {
       bot.startConversation(message, (err, convo) => {
@@ -167,4 +165,5 @@ module.exports = function(controller,dialogflowMiddleware) {
         }, 'contact');
       });
     });
+    */
 }

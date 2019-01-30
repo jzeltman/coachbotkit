@@ -14,4 +14,12 @@ module.exports = function(controller) {
 
     });
 
+    controller.hears(['Goals', 'Ideas', 'Mindset', 'Organization'], 'message_received', (bot, message) => {
+        bot.startConversation(message, (err, convo) => {
+            convo.say({
+                text: 'I\'m sorry to say that I\'m not trained to help you with that yet. But I\'m working on it!'
+            })
+        });
+    });
+
 }

@@ -23,3 +23,49 @@
     width: calc( 100% - 1rem );
     left: .5rem; 
 }
+
+#chatbot {
+    footer {
+        border-top: 3px solid #fff;
+        position: relative;
+
+        form {
+            display: flex;
+            margin: 0;
+            padding: 0.25rem;
+        }
+
+        fieldset { 
+            border: none; 
+            display: none;
+            padding: 0;
+            flex-grow: 1;
+            margin: 0;
+
+            &.active { display: block; }
+        }
+
+        input[type="text"] {
+            font-size: .9rem;
+            outline: none;
+            border: none;
+            padding: .25rem;
+            background: $lineColor;
+            width: 100%;
+        }
+
+        button {
+            background: none;
+            border: 0;
+            cursor: pointer;
+            font-weight: 800;
+            color: $secondaryColor;
+            font-size: .7rem;
+            line-height: 1.3rem;
+            position: absolute;
+            right: .25rem;
+
+            &:hover { text-decoration: underline; }
+        }
+    }
+}

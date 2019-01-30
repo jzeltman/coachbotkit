@@ -55,6 +55,7 @@
 
       },
       send: function(text, e) {
+        console.log('send',text,e);
         if (e) e.preventDefault();
         if (!text) {
           return;
@@ -337,6 +338,7 @@
         that.replies = document.getElementById('message_replies');
 
         that.input = document.getElementById('messenger_input');
+        that.submit = document.querySelector('#inputs button[type=submit]');
 
         that.focus();
 
@@ -382,9 +384,20 @@
         });
 
         that.on('message', function(message) {
+          const $inputFooter = document.querySelector("#inputs");
+            $inputFooter.querySelectorAll('fieldset').forEach( $fieldset => $fieldset.classList.remove('active'));
+          if (message.time){ 
+            console.log('requesting a time');
+            $inputFooter.querySelector('fieldset[name=time]').classList.add('active');
+          } else if (message.date) {
+            $inputFooter.querySelector('fieldset[name=date]').classList.add('active');
+          } else {
+            $inputFooter.querySelector('fieldset[name=text]').classList.add('active');
+          }
+        });
 
+        that.on('message', function(message) {
           that.renderMessage(message);
-
         });
 
         that.on('message', function(message) {
@@ -392,7 +405,6 @@
             window.location = message.goto_link;
           }
         });
-
 
         that.on('message', function(message) {
           that.clearReplies();
@@ -448,6 +460,20 @@
                 type: history[m].type == 'message_received' ? 'outgoing' : 'incoming', // set appropriate CSS class
               });
             }
+          }
+        });
+
+        console.log('that.submit',that.submit);
+        that.submit.addEventListener('click', (e) => {
+          console.log('submit click',e);
+          const activeInput = document.querySelector('#inputs fieldset.active');
+          console.log('activeInput',activeInput,activeInput.getAttribute('name'))
+          if (activeInput.getAttribute('name') === 'time'){
+
+            let hour = activeInput.querySelector('select[name=hour]').value,
+              minute = activeInput.querySelector('select[name=minute]').value;
+              
+              that.send(hour + ':' + minute, e);
           }
         });
 

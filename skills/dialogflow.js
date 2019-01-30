@@ -1,17 +1,45 @@
 module.exports = function (controller,dialogflowMiddleware) {
+    console.log('dailogFlowSkills');
     controller.middleware.receive.use(dialogflowMiddleware.receive);
 
-    controller.hears(['Default Welcome Intent'], 'direct_message', dialogflowMiddleware.hears, (bot,message) => {
-    //controller.on('direct_message', dialogflowMiddleware.hears, (bot,message) => {
-        console.log('testing',message);
-        replyText = message.fulfillment.text;  // message object has new fields added by Dialogflow
-        bot.reply(message, replyText);
-    });
-
-    controller.hears(['mousetestcoachbot'], 'message_received', dialogflowMiddleware.hears, (bot,message) => {
-    //controller.on('direct_message', dialogflowMiddleware.hears, (bot,message) => {
-        console.log('mouse testing',message);
-        replyText = message.fulfillment.text;  // message object has new fields added by Dialogflow
-        bot.reply(message, replyText);
+    controller.hears('DayPlanner', 'message_received', dialogflowMiddleware.hears, (bot,message) => {
+        console.log('DialogFlow Message Logging\n~~~~~~~~~~~~~~~~~~\n',message,'\n~~~~~~~~~~~~~~~~~~');
+        console.log('foo',message.fulfillment.text)
+        bot.reply(message, {
+            text: message.fulfillment.text
+        });
+        /*
+    bot.reply(message, {
+        convo.say({
+            // 'Hey there, I\'m coachbot. How can I help you succeed today?'
+            text: message.fulfillment.text,
+            quick_replies: [
+                {
+                    title: 'Goals',
+                    payload: 'Goals',
+                },
+                {
+                    title: 'Motivation',
+                    payload: 'Motivation',
+                },
+                {
+                    title: 'Organization',
+                    payload: 'Organization',
+                },
+                {
+                    title: 'Ideas',
+                    payload: 'Ideas',
+                },
+                {
+                    title: 'Mindset',
+                    payload: 'Mindset',
+                },
+                {
+                    title: 'Planner',
+                    payload: 'Planner',
+                },
+            ]
+        });
+        */
     });
 }
