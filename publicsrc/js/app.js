@@ -5,13 +5,13 @@ import FirebaseInit from './models/firebase';
 
 export default class MyApp {
     constructor(){
-        console.log('New App',Utils);
         FirebaseInit();
         Botkit.boot();
-        window.events = new Utils.Events(document.querySelector('#app'));
         new AppView();
 
         window.events.sub('auth:success', this.updateBotKitUser.bind(this)); 
+        window.events.sub('auth:change', this.updateBotKitUser.bind(this)); 
+        window.events.sub('trigger-login',this.triggerLogin.bind(this));
     }
 
     updateBotKitUser(data){
@@ -25,5 +25,10 @@ export default class MyApp {
             gender : window.user.data.gender,
             timezone : window.user.data.timezone
         });
+    }
+
+    triggerLogin(e,b){
+        console.log('triggerLogin',e,b);
+        Utils.Auth();
     }
 }

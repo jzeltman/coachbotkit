@@ -1,9 +1,12 @@
+const Dict = require('./_dictionary').dictionary;
+const getPhrase = require('./_dictionary').getPhrase;
+
 module.exports = (controller, dialogFlowMiddleware) => {
 
 const getDateObj = (timeString) => {
     let date = new Date(null);
         date.setHours(timeString.split(':')[0]);
-        date.setMinutes(timeString.split(':')[1]);
+        //date.setMinutes(timeString.split(':')[1]);
     return date;
 }
 
@@ -30,17 +33,28 @@ const iterateChunks = (end,convo) => {
     planData.chunkStart = end;
     planData.chunkEnd   = getNextHour(planData,end);
 
-    if (getDateObj(planData.chunkEnd) > getDateObj(planData.sleepTime)){
+    if (getDateObj(planData.chunkEnd) >= getDateObj(planData.sleepTime)){
         planData.chunkEnd = planData.sleepTime;
     }
-
-    convo.setVar('chunkStart',planData.chunkStart);
-    convo.setVar('chunkEnd',planData.chunkEnd);
 }
 
-const isTimeRemaining = () =>{
-    if (planData.timeChunk < planData.availableHours){ return true; }
+const isTimeRemaining = () => {
+    if (planData.timeChunk < planData.availableHours - 1){ return true; }
     else { return false; }
+}
+
+const getPlanMarkup = () => {
+    let markup = '';
+
+    planData.timeBlocks.forEach( block => {
+        markup += `
+            <li>
+                <span class="event-time">${block.start}-${block.end}</span>
+                <span class="event-name">${block.name}</span>
+            </li>`;
+    });
+
+    return markup;
 }
 
 let planData = {
@@ -51,6 +65,7 @@ let planData = {
 };
 
 
+/*
 controller.hears(['Planning'], 'message_received', (bot, message) => {
     bot.reply(message, {
         text: 'All right, what can I help you plan?',
@@ -66,6 +81,7 @@ controller.hears(['Planning'], 'message_received', (bot, message) => {
         ]
     });
 });
+*/
 
 controller.hears(['Plan my day'], 'message_received', (bot, message) => {
     bot.startConversation(message,(err,convo) => {
@@ -74,7 +90,7 @@ controller.hears(['Plan my day'], 'message_received', (bot, message) => {
 
         convo.addQuestion(
             {
-                text: 'For starters, when are you going to sleep?',
+                text: getPhrase('day_planner_sleep_time'), 
                 time: 'true'
             },
             (res,convo) => {
@@ -88,7 +104,6 @@ controller.hears(['Plan my day'], 'message_received', (bot, message) => {
                 convo.setVar('availableHours',planData.availableHours);
 
                 controller.trigger('getTimeChunkPlan',[bot,message]);
-                console.log('aftertrigger');
                 convo.stop();
 
             }, { key: 'sleepTime' });
@@ -100,13 +115,16 @@ controller.on('getTimeChunkPlan',(bot,message) => {
     console.log('getTimeChunkPlan');
     bot.startConversation(message,(err,convo) => {
 
+        convo.setVar('chunkStart',planData.chunkStart);
+        convo.setVar('chunkEnd',planData.chunkEnd);
+
         if (planData.timeChunk === 0){
             convo.addMessage(`Ok, so it looks like you have ${planData.availableHours} hours to work with today.`);
             convo.addMessage(`Let's make the most of them`);
         }
 
         convo.addQuestion(
-            `What would you like to do between ${planData.chunkStart} and ${planData.chunkEnd}?`,
+            getPhrase('day_planner_time_chunk'),
             (res,convo) => {
                 let start = planData.chunkStart,
                     end   = planData.chunkEnd;
@@ -120,12 +138,37 @@ controller.on('getTimeChunkPlan',(bot,message) => {
 
                 if (isTimeRemaining()){ 
                     console.log('time remaining');
-                    iterateChunks(end,convo); 
+                    iterateChunks(end); 
                     controller.trigger('getTimeChunkPlan',[bot,message]);
-                } else { console.log('done',planData); }
+                } else { 
+                    console.log('done',planData); 
+                    controller.trigger('agenda',[bot,message]);
+                    convo.stop();
+                }
 
 
             }, { key: 'chunkName' });
+    });
+});
+
+controller.on('agenda',(bot,message) => {
+    console.log('agenda');
+
+    bot.startConversation(message,(err,convo) => {
+
+        convo.addMessage(getPhrase('day_planner_before_agenda'));
+        convo.addMessage(
+            {
+                text: `<div class="agenda">
+                            <strong>Agenda for ${new Date().toDateString()}</strong>
+                            <ul>${getPlanMarkup()}</ul>
+                        </div>`
+            }
+        );
+        convo.addMessage({
+            text: getPhrase('day_planner_after_agenda'),
+            quick_replies: Dict.login_quick_replies
+        });
     });
 });
 

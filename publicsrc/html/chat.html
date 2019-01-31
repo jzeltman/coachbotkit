@@ -51,11 +51,11 @@
             <footer id="inputs">
                 <form onsubmit="Botkit.send(Botkit.input.value, event)">
                     <fieldset name="text" class="active">
-                        <input type="text" autocomplete="off" id="messenger_input" placeholder="Hey Coach..." />
+                        <input type="text" autocomplete="off" id="messenger_input" placeholder="Hey Coach..." tabindex="1" />
                     </fieldset>
 
                     <fieldset name="time">
-                        <select name="hour">
+                        <select name="hour" tabindex="2">
                             <option value="01">01</option>
                             <option value="02">02</option>
                             <option value="03">03</option>
@@ -82,7 +82,7 @@
                             <option value="24">24</option>
                         </select>
 
-                        <select name="minute">
+                        <select name="minute" tabindex="4">
                             <option value="00">00</option>
                             <option value="01">01</option>
                             <option value="02">02</option>
@@ -147,7 +147,7 @@
                     </fieldset>
 
                     <fieldset name="date">
-                        <input type="date" name="date" />
+                        <input type="date" name="date" tabindex="4"/>
                     </fieldset>
 
                     <button type="submit">Send</button>
