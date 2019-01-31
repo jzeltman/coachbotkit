@@ -55,6 +55,7 @@
 
       },
       send: function(text, e) {
+        console.log('send',text,e);
         if (e) e.preventDefault();
         if (!text) {
           return;
@@ -75,6 +76,8 @@
         });
 
         this.input.value = '';
+        this.resetInputs();
+        this.input.focus();
 
         this.trigger('sent', message);
 
@@ -222,6 +225,11 @@
       focus: function() {
         this.input.focus();
       },
+      resetInputs: function(){
+        const $inputFooter = document.querySelector("#inputs");
+          $inputFooter.querySelectorAll('fieldset').forEach( $fieldset => $fieldset.classList.remove('active'));
+          $inputFooter.querySelector('fieldset[name="text"]').classList.add('active');
+      },
       renderMessage: function(message) {
         if (!that.next_line) {
           that.next_line = document.createElement('div');
@@ -284,11 +292,9 @@
         }
       },
       sendEvent: function(event) {
-
         if (this.parent_window) {
           this.parent_window.postMessage(event, '*');
         }
-
       },
       setCookie: function(cname, cvalue, exdays) {
         var d = new Date();
@@ -337,6 +343,7 @@
         that.replies = document.getElementById('message_replies');
 
         that.input = document.getElementById('messenger_input');
+        that.submit = document.querySelector('#inputs button[type=submit]');
 
         that.focus();
 
@@ -382,9 +389,20 @@
         });
 
         that.on('message', function(message) {
+          const $inputFooter = document.querySelector("#inputs");
+            $inputFooter.querySelectorAll('fieldset').forEach( $fieldset => $fieldset.classList.remove('active'));
+          if (message.time){ 
+            console.log('requesting a time');
+            $inputFooter.querySelector('fieldset[name=time]').classList.add('active');
+          } else if (message.date) {
+            $inputFooter.querySelector('fieldset[name=date]').classList.add('active');
+          } else {
+            $inputFooter.querySelector('fieldset[name=text]').classList.add('active');
+          }
+        });
 
+        that.on('message', function(message) {
           that.renderMessage(message);
-
         });
 
         that.on('message', function(message) {
@@ -392,7 +410,6 @@
             window.location = message.goto_link;
           }
         });
-
 
         that.on('message', function(message) {
           that.clearReplies();
@@ -408,9 +425,24 @@
                 var el = document.createElement('a');
                 el.innerHTML = reply.title;
                 el.href = '#';
+                if (reply.action){ el.setAttribute('data-action',reply.action); }
 
-                el.onclick = function() {
-                  that.quickReply(reply.payload);
+                el.onclick = function(e) {
+                  console.log('click',e);
+                  if(e.target.dataset && e.target.dataset.action){
+                    console.log('action',e.target.dataset.action);
+                    let event = e.target.dataset.action.split(':')[0],
+                      detail = e.target.dataset.action.split(':')[1];
+                    window.parent.events.pub(event,detail,true);
+                    //window.parent.postMessage(e.target.dataset.action,'*');
+                    /*
+                    that.sendEvent({
+                      name: e.target.dataset.action
+                    });
+                    */
+                  } else {
+                    that.quickReply(reply.payload);
+                  }
                 }
 
                 li.appendChild(el);
@@ -448,6 +480,20 @@
                 type: history[m].type == 'message_received' ? 'outgoing' : 'incoming', // set appropriate CSS class
               });
             }
+          }
+        });
+
+        console.log('that.submit',that.submit);
+        that.submit.addEventListener('click', (e) => {
+          console.log('submit click',e);
+          const activeInput = document.querySelector('#inputs fieldset.active');
+          console.log('activeInput',activeInput,activeInput.getAttribute('name'))
+          if (activeInput.getAttribute('name') === 'time'){
+
+            let hour = activeInput.querySelector('select[name=hour]').value,
+              minute = activeInput.querySelector('select[name=minute]').value;
+              
+              that.send(hour + ':' + minute, e);
           }
         });
 

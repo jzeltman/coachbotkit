@@ -7,7 +7,7 @@ export default class UserModel {
         this.data.createdDate = new Date().toDateString();
         this.data.timezone = new Date().getTimezoneOffset() / 60;
         this.setData(data);
-        this.getUserFromDB();
+        //this.getUserFromDB();
         this.events.log('userModel',this.data);
     }
 
@@ -18,9 +18,9 @@ export default class UserModel {
             this.data.gender = data.additionalUserInfo.profile.gender;
             this.authData = data;
             data = data.user;
-            this.uid = data.uid;
         }
         if (data.timezone){ this.data.timezone = data.timezone; }
+        this.uid = data.uid;
         this.data.createdDate = data.createdDate || new Date().toDateString();
         this.data.displayName = data.displayName;
         this.data.email = data.email;

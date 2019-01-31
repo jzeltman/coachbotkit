@@ -79,7 +79,6 @@ div.input {
 
     input,
     textarea {
-        flex-grow: 1;
         border: 0;
         background: transparent;
     }
@@ -163,39 +162,6 @@ a.button {
         }
     }
 
-    footer {
-        border-top: 3px solid #fff;
-        position: relative;
-
-        input[type="text"] {
-            flex-grow: 1;
-            font-size: .9rem;
-            outline: none;
-            border: none;
-            padding: .25rem;
-            background: $lineColor;
-        }
-
-        button {
-            background: none;
-            border: 0;
-            cursor: pointer;
-            font-weight: 800;
-            color: $secondaryColor;
-            font-size: .7rem;
-            line-height: 1.3rem;
-            position: absolute;
-            right: .25rem;
-
-            &:hover { text-decoration: underline; }
-        }
-    }
-
-    form {
-        display: flex;
-        margin: 0;
-        padding: 0.25rem;
-    }
 
     #message_template { display: none; }
 

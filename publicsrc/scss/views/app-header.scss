@@ -10,41 +10,37 @@ header {
     h1 {
         color: $secondaryColor;
         margin: 0;
-        padding: 0 1rem;
+        padding: 0 .5rem;
         font: 600 2rem/3.5rem $bodyFont;
     }
 
     #user {
         align-self: center;
-        margin: 0;
+        margin: 0 .25rem 0 0;
         padding: 0;
+        width: 2.75rem;
+        height: 2.75rem;
 
-        button {
-            background: transparent;
-            border: none;
-            padding: 0 1.2rem;
-            color: $secondaryColor;
-            font: 400 1.2rem/3.5rem $bodyFont;
-            cursor: pointer;
-            position: relative;
-            margin: 0;
+        img { 
+            max-width: 100%; 
+            border-radius: 5px;
 
-            &:hover { text-decoration: underline; }
-
-            img { 
-                max-width: 3.5rem;
-                border-radius: 0 5px 0 0; 
-                position: absolute;
-                top: 0;
-                right: 0;
+            &:hover {
+                cursor: pointer;
+                opacity: .8;
             }
         }
     }
-}
 
-#app.landing {
-    header { display: block; 
-        h1 { text-align: center; }
-        #user { display: none; }
+    &.logged-out {
+        header { display: block; 
+            h1 { text-align: center; }
+            #user { display: none; }
+        }
+    }
+
+    &.logged-in {
+        h1 { text-align: left; }
+        #user { display: block; }
     }
 }

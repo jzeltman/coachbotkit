@@ -24,7 +24,7 @@ const debug                 = require('debug')('botkit:main');
 const dialogflowMiddleware  = require('botkit-middleware-dialogflow')({
     keyFilename: './dialogflow-config.json' 
 });
-const bot_options           = { replyWithTyping: true, };
+const bot_options           = { replyWithTyping: true };
 
 // Use a mongo database if specified, otherwise store in a JSON file local to the app.
 // Mongo is automatically configured when deploying to Heroku
@@ -54,31 +54,7 @@ controller.openSocketServer(controller.httpserver);
 // Start the bot brain in motion!!
 controller.startTicking();
 
-const normalizedPath = path.join(__dirname, "skills");
-
-const loadSkills = (filepath,rootPath) => {
-    fs.readdirSync(filepath).forEach( file => {
-        if (!fs.lstatSync(rootPath + file).isDirectory()){
-            require(rootPath + file)(controller,dialogflowMiddleware);
-        } else { 
-            console.log('is directory',rootPath+ file); 
-            fs.readdirSync(rootPath + file).forEach( childFile => {
-                require(rootPath + childFile)(controller,dialogflowMiddleware);
-            });
-        }
-    });
-} 
-
-fs.readdirSync(normalizedPath).forEach( file => {
-    // update to allow folders as well 
-    if (!fs.lstatSync('./skills/' + file).isDirectory()){
-        require("./skills/" + file)(controller,dialogflowMiddleware);
-    } else { 
-        fs.readdirSync('./skills/' + file).forEach( childFile => {
-            require("./skills/" + childFile)(controller,dialogflowMiddleware);
-        });
-    }
-});
+require('./skills/skills')(controller,dialogflowMiddleware);
 
 console.log('I AM ONLINE! COME TALK TO ME: http://localhost:' + (process.env.PORT || 3000))
 
