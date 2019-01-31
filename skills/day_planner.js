@@ -6,14 +6,12 @@ module.exports = (controller, dialogFlowMiddleware) => {
 const getDateObj = (timeString) => {
     let date = new Date(null);
         date.setHours(timeString.split(':')[0]);
-        //date.setMinutes(timeString.split(':')[1]);
     return date;
 }
 
 const formatDate = (dateObj) => { return dateObj.toTimeString().substr(0,5); }
 
 const getAvailableHours = (planData) => {
-    console.log('getAvailableHours',planData);
     let startTime = planData.startTime;
         if (planData.wakeTime){ startTime = planData.wakeTime; }
     let date1 = getDateObj(startTime);
@@ -112,7 +110,6 @@ controller.hears(['Plan my day'], 'message_received', (bot, message) => {
 });
 
 controller.on('getTimeChunkPlan',(bot,message) => {
-    console.log('getTimeChunkPlan');
     bot.startConversation(message,(err,convo) => {
 
         convo.setVar('chunkStart',planData.chunkStart);
@@ -134,14 +131,10 @@ controller.on('getTimeChunkPlan',(bot,message) => {
                     start, end
                 };
 
-                console.log('res',res,planData);
-
                 if (isTimeRemaining()){ 
-                    console.log('time remaining');
                     iterateChunks(end); 
                     controller.trigger('getTimeChunkPlan',[bot,message]);
                 } else { 
-                    console.log('done',planData); 
                     controller.trigger('agenda',[bot,message]);
                     convo.stop();
                 }
@@ -152,19 +145,14 @@ controller.on('getTimeChunkPlan',(bot,message) => {
 });
 
 controller.on('agenda',(bot,message) => {
-    console.log('agenda');
-
     bot.startConversation(message,(err,convo) => {
-
         convo.addMessage(getPhrase('day_planner_before_agenda'));
-        convo.addMessage(
-            {
-                text: `<div class="agenda">
-                            <strong>Agenda for ${new Date().toDateString()}</strong>
-                            <ul>${getPlanMarkup()}</ul>
-                        </div>`
-            }
-        );
+        convo.addMessage({
+            text: `<div class="agenda">
+                        <strong>Agenda for ${new Date().toDateString()}</strong>
+                        <ul>${getPlanMarkup()}</ul>
+                    </div>`
+        });
         convo.addMessage({
             text: getPhrase('day_planner_after_agenda'),
             quick_replies: Dict.login_quick_replies

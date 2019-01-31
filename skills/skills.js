@@ -4,7 +4,6 @@ module.exports = function skills(controller,dialogflowMiddleware) {
         next();
     });
 
-    require('./_connection_events')(controller,dialogflowMiddleware);
     require('./unhandled_messages')(controller,dialogflowMiddleware);
     //require('./dialogflow')(controller,dialogflowMiddleware);
     require('./onboarding')(controller,dialogflowMiddleware);
