@@ -5,7 +5,8 @@
   "main": "bot.js",
   "scripts": {
     "prestart": "cross-env NODE_ENV=production webpack",
-    "start": "node ."
+    "start": "node .",
+    "dev": "set MODE=dev&& nodemon . "
   },
   "repository": {
     "type": "git",

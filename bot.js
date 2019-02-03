@@ -19,6 +19,11 @@ const path                  = require('path');
 const fs                    = require('fs');
 const Botkit                = require('botkit');
 const debug                 = require('debug')('botkit:main');
+
+if (process.env.MODE === 'dev'){
+    const env = require('node-env-file');
+          env(__dirname + '/.env');
+}
 /*
 const dialogflowMiddleware  = require('botkit-middleware-dialogflow')({
     keyFilename: './dialogflow-config.json' 
