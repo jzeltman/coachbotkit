@@ -1,4 +1,4 @@
-module.exports = function(controller,dialogflowMiddleware) {
+module.exports = function(controller) {
   controller.middleware.spawn.use(function(bot, next) {
       bot.identity = {
           name: 'CoachBotkit',

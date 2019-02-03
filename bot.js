@@ -19,9 +19,11 @@ const path                  = require('path');
 const fs                    = require('fs');
 const Botkit                = require('botkit');
 const debug                 = require('debug')('botkit:main');
+/*
 const dialogflowMiddleware  = require('botkit-middleware-dialogflow')({
     keyFilename: './dialogflow-config.json' 
 });
+*/
 const bot_options           = { replyWithTyping: true };
 
 // Use a mongo database if specified, otherwise store in a JSON file local to the app.
@@ -44,7 +46,7 @@ const webserver = require(__dirname + '/components/express_webserver.js')(contro
 require(__dirname + '/components/plugin_glitch.js')(controller);
 
 // Load in a plugin that defines the bot's identity
-require(__dirname + '/components/plugin_identity.js')(controller,dialogflowMiddleware);
+require(__dirname + '/components/plugin_identity.js')(controller);
 
 // Open the web socket server
 controller.openSocketServer(controller.httpserver);
@@ -52,7 +54,8 @@ controller.openSocketServer(controller.httpserver);
 // Start the bot brain in motion!!
 controller.startTicking();
 
-require('./skills/skills')(controller,dialogflowMiddleware);
+require('./skills/skills')(controller);
+//require('./skills/skills')(controller,dialogflowMiddleware);
 
 console.log('I AM ONLINE! COME TALK TO ME: http://localhost:' + (process.env.PORT || 3000))
 
