@@ -15,8 +15,6 @@
     -> http://howdy.ai/botkit
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-const env                   = require('node-env-file');
-      env(__dirname + '/.env');
 const path                  = require('path');
 const fs                    = require('fs');
 const Botkit                = require('botkit');
