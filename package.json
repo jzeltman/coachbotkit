@@ -58,5 +58,8 @@
   },
   "devDependencies": {
     "nodemon": "^1.18.9"
+  },
+  "nodemonConfig": {
+    "ignore": ["dialogflow-config.json"]
   }
 }

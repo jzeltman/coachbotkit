@@ -15,52 +15,40 @@
     -> http://howdy.ai/botkit
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-const path                  = require('path');
-const fs                    = require('fs');
-const Botkit                = require('botkit');
-const debug                 = require('debug')('botkit:main');
+//const path                  = require('path');
+//const debug                 = require('debug')('botkit:main');
+const fs            = require('fs');
+const Botkit        = require('botkit');
+const bot_options   = { 
+    replyWithTyping: true, 
+    json_file_store: __dirname + '/.data/db/'
+};
 
 if (process.env.MODE === 'dev'){
     const env = require('node-env-file');
           env(__dirname + '/.env');
 }
-/*
-const dialogflowMiddleware  = require('botkit-middleware-dialogflow')({
-    keyFilename: './dialogflow-config.json' 
-});
-*/
-const bot_options           = { replyWithTyping: true };
-
-// Use a mongo database if specified, otherwise store in a JSON file local to the app.
-// Mongo is automatically configured when deploying to Heroku
-if (process.env.MONGO_URI) {
-    // create a custom db access method
-    var db = require(__dirname + '/components/database.js')({});
-    bot_options.storage = db;
-
-         // store user data in a simple JSON format 
-} else { bot_options.json_file_store = __dirname + '/.data/db/'; }
 
 // Create the Botkit controller, which controls all instances of the bot.
 const controller = Botkit.socketbot(bot_options);
-
-// Set up an Express-powered webserver to expose oauth and webhook endpoints
 const webserver = require(__dirname + '/components/express_webserver.js')(controller);
 
-// Load in some helpers that make running Botkit on Glitch.com better
-require(__dirname + '/components/plugin_glitch.js')(controller);
-
-// Load in a plugin that defines the bot's identity
 require(__dirname + '/components/plugin_identity.js')(controller);
-
-// Open the web socket server
 controller.openSocketServer(controller.httpserver);
-
-// Start the bot brain in motion!!
 controller.startTicking();
 
-require('./skills/skills')(controller);
-//require('./skills/skills')(controller,dialogflowMiddleware);
+if (process.env.DIALOG_FLOW_CONFIG){
+    // Write file for config inclusion from env var 
+    fs.writeFile(__dirname + '/dialogflow-config.json', process.env.DIALOG_FLOW_CONFIG, 'utf8', (err) => {
+    //fs.writeFile(__dirname + '/dialogflow-config.json', JSON.stringify(process.env.DIALOG_FLOW_CONFIG), 'utf8', (err) => {
+        if (err) console.error(err);
+        const dialogflowMiddleware = require('botkit-middleware-dialogflow')({
+            keyFilename: './dialogflow-config.json'
+        });
+        require('./skills/skills')(controller,dialogflowMiddleware);
+    })
+
+} else { require('./skills/skills')(controller); }
 
 console.log('I AM ONLINE! COME TALK TO ME: http://localhost:' + (process.env.PORT || 3000))
 
