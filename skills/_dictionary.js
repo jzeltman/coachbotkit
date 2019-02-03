@@ -1,5 +1,6 @@
 const dictionary = {
     help_quick_replies : [
+        /*
         {
             title: 'Goals',
             payload: 'Goals',
@@ -20,6 +21,7 @@ const dictionary = {
             title: 'Mindset',
             payload: 'Mindset',
         },
+        */
         {
             title: 'Planning',
             payload: 'Plan my day',
