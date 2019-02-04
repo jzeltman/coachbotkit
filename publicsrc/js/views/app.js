@@ -1,9 +1,13 @@
+import ChatView from './chat/chat';
+
 export default class AppView {
     constructor(el){
         this.$el        = document.querySelector('body');
         this.$header    = this.$el.querySelector('header');
         this.$user      = this.$el.querySelector('#user');
         this.$main      = this.$el.querySelector('main');
+        this.$chat      = this.$el.querySelector('#chatbot');
+        new ChatView({ el: this.$chat });
 
         this.$user.addEventListener('click',this.userProfileClickHandler.bind(this));
 

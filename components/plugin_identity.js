@@ -10,6 +10,7 @@ module.exports = function(controller) {
 
     if (!message.user_profile) { next(); } 
     else {
+      console.log('upadte user');
       controller.storage.users.get(message.user, function(err, user) {
         if (!user) {
           user = {

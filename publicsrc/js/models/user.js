@@ -1,3 +1,5 @@
+import uuidv3 from 'uuid/v3';
+
 export default class UserModel {
     constructor(data){        
         this.collectionType = 'users';
@@ -13,18 +15,36 @@ export default class UserModel {
 
     setData(data){
         this.events.log('setData',data);
-        if (data && data.user){ 
-            this.data.locale = data.additionalUserInfo.profile.locale;
-            this.data.gender = data.additionalUserInfo.profile.gender;
-            this.authData = data;
-            data = data.user;
+        this.uid = uuidv3('http://coachbokit.heroku.com/', uuidv3.URL);
+        this.data.createdDate = new Date().toDateString();
+        this.data.displayName = '' 
+        this.data.email = '' 
+        this.data.photoURL = ''; 
+        this.data.id = this.uid;
+        this.data.timezone = new Date().getTimezoneOffset();
+        if (data){
+            if (data.metadata) this.metadata = data.metadata;
+            if (data.createdDate) this.data.createdDate = data.createdDate;
+            if (data.displayName) this.data.displayName = data.displayName;
+            if (data.displayName) this.name = data.displayName;
+            if (data.displayName) this.data.name = data.displayName;
+            if (data.firstName) this.data.firstName = data.firstName;
+            if (data.lastName) this.data.lastName = data.lastName;
+            if (data.fullName) this.data.fullName = data.fullName;
+            if (data.email) this.data.email = data.email;
+            if (data.photoURL) this.data.photoURL = data.photoURL;
+            if (data.timezone){ this.data.timezone = data.timezone; }
+            if (data.uid){ 
+                this.uid = data.uid; 
+                this.data.id = data.uid; 
+            }
+            if (data.user){ 
+                this.data.locale = data.additionalUserInfo.profile.locale;
+                this.data.gender = data.additionalUserInfo.profile.gender;
+                this.authData = data;
+                data = data.user;
+            }
         }
-        if (data.timezone){ this.data.timezone = data.timezone; }
-        this.uid = data.uid;
-        this.data.createdDate = data.createdDate || new Date().toDateString();
-        this.data.displayName = data.displayName;
-        this.data.email = data.email;
-        this.data.photoURL = data.photoURL;
     }
 
     getUserFromDB(){

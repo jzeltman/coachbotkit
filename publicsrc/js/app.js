@@ -6,10 +6,8 @@ import FirebaseInit from './models/firebase';
 export default class MyApp {
     constructor(){
         FirebaseInit();
-        Botkit.boot();
         new AppView();
 
-        window.events.sub('auth:success', this.updateBotKitUser.bind(this)); 
         window.events.sub('auth:change', this.updateBotKitUser.bind(this)); 
         window.events.sub('trigger-login',this.triggerLogin.bind(this));
     }

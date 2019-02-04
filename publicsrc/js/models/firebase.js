@@ -1,4 +1,5 @@
 import UserModel from '../models/user';
+import Chat from '../chat/chat';
 
 export default function(){
     let xhr = new XMLHttpRequest();
@@ -7,17 +8,18 @@ export default function(){
     xhr.onload = () => {
         firebase.initializeApp(JSON.parse(xhr.responseText));
         window.db = firebase.firestore();
-        window.user = firebase.auth().currentUser;
-        console.log('user',user);
-        firebase.auth().onAuthStateChanged(user => {
-            if (user) {
-                console.log('user exists',user);
-                if (window.user === null ){ window.user = new UserModel(user); }
-                window.events.pub('auth:change',window.user); 
-                // User is signed in.
+
+        firebase.auth().onAuthStateChanged(userData => {
+            if (userData) {
+                console.log('user exists',userData);
+                window.user = new UserModel(userData);
             } else {
-                // No user is signed in.
+                console.log('no user exists, start with anonymous');
+                window.user = new UserModel();
             }
+
+            console.log('user',window.user);
+            window.chat = new Chat(window.user);
         });
     }
 }

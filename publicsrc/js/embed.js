@@ -92,6 +92,7 @@ var Botkit = {
 
   },
   boot: function(user) {
+    console.log('embed.js boot',user);
     var that = this;
 
     that.container = document.getElementById('embedded_messenger');
